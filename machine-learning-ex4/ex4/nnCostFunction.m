@@ -61,6 +61,8 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+
+% Cost Function J_theta
 X = [ones(m, 1) X];
 for i = 1:m
 z2 = X(i,:) * Theta1';
@@ -80,6 +82,12 @@ end
 J = 1/m * J;
 J = sum(J);
 
+% Regularized Parameter
+h1 = Theta1(:,2:input_layer_size+1);
+h2 = Theta2(:,2:hidden_layer_size+1);
+Regularized_param = (lambda / (2 * m)) * (sum(sum(h1.^2)) + sum(sum(h2.^2)));
+
+J = J + Regularized_param;
 
 % -------------------------------------------------------------
 
