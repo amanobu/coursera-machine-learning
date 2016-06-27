@@ -64,23 +64,28 @@ Theta2_grad = zeros(size(Theta2));
 
 % Cost Function J_theta
 X = [ones(m, 1) X];
-for i = 1:m
-z2 = X(i,:) * Theta1';
+
+z2 = X * Theta1';
 a2 = sigmoid(z2);
-a2 = [1 a2];
+a2 = [ones(m,1) a2];
 z3 = a2 * Theta2';
 a3 = sigmoid(z3);
 h_theta = a3;
-y_ki = (eye(num_labels,num_labels))(:,y(i));
+
+y_ki = [];
+identity_matrix = eye(num_labels,num_labels);
+for i=1:m
+  y_ki = [y_ki identity_matrix(:,y(i))];
+end
+
 minus_y_ki = - y_ki;
 log_h_theta = log(h_theta');
 one_minus_y_ki = 1 - y_ki;
 one_minus_log_h_theta = log(1 - h_theta');
 sum_ki = (minus_y_ki .* log_h_theta) .- (one_minus_y_ki .* one_minus_log_h_theta);
-J = J + sum(sum_ki);
-end
+J = sum(sum(sum_ki));
 J = 1/m * J;
-J = sum(J);
+
 
 % Regularized Parameter
 h1 = Theta1(:,2:input_layer_size+1);
