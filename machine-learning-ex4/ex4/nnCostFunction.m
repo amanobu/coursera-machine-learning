@@ -95,7 +95,25 @@ Regularized_param = (lambda / (2 * m)) * (sum(sum(h1.^2)) + sum(sum(h2.^2)));
 J = J + Regularized_param;
 
 % -------------------------------------------------------------
+% Backpropagation
+delta_3k = a3 - y_ki';
+delta_2k = (Theta2' * delta_3k')' .* sigmoidGradient([ones(m,1) z2]);
+delta_2k = delta_2k(:,2:end);
 
+DELTA2   = delta_3k' * a2;
+%DELTA2   = DELTA2(:,2:end);
+a1       = X;
+DELTA1   = delta_2k' * a1;
+%DELTA1   = DELTA1(:,2:end);
+
+DELTA1   = 1/m*(DELTA1);
+DELTA2   = 1/m*(DELTA2);
+
+Theta1_grad = DELTA1;
+Theta2_grad = DELTA2;
+
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + ((lambda/m) * Theta1(:,2:end));
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + ((lambda/m) * Theta2(:,2:end));
 % =========================================================================
 
 % Unroll gradients
