@@ -21,9 +21,9 @@ grad = zeros(size(theta));
 % y:12*1, theta:2*1, X:12*2
 predictions = X * theta;
 sqlError = (predictions-y).^2;
-J = ((1 /(2 * m)) * sum(sqlError)) + ((lambda /(2 * m)) * sum(theta(2) .^ 2));
+J = ((1 /(2 * m)) * sum(sqlError)) + ((lambda /(2 * m)) * sum(theta(2:end) .^ 2));
 
-_grad = (1/m * sum((predictions - y) .* X))';
+_grad = ((1/m) * sum((predictions - y) .* X))';
 d_theta = (lambda / m) * theta;
 d_theta(1) = 0;
 grad = _grad + d_theta;
