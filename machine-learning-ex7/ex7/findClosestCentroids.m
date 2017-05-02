@@ -20,14 +20,20 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
-
-
-
-
-
-
+Xn = size(X,2)
+for i = 1 : size(X,1)
+  res = zeros(K,1);
+  for j = 1 : K
+    res(j) = (X(i,1) - centroids(j,1))^2;
+    if Xn > 1
+      for n = 2 : Xn
+        res(j) = res(j) + (X(i,n) - centroids(j,n))^2;
+      end
+    end
+  end
+  [Min MinIndex] = min(abs(res));
+  idx(i) = MinIndex;
+end
 % =============================================================
 
 end
-
